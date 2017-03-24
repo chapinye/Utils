@@ -8,17 +8,20 @@
 ##Utils超级工具包用法如下：
 
 ###1.AndroidManifest.xml添加权限：
+
     <!-- 往sdcard中写入数据的权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- 在sdcard中创建/删除文件的权限 -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <!-- 读取sdcard权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    
     <!-- 如果需要做网络监听事件则需要添加权限： -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    
     <!-- 添加广播 -->
     <receiver android:name="com.cmonbaby.utils.net.NetStateReceiver">
         <intent-filter>
