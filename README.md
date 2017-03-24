@@ -1,13 +1,13 @@
 # Utils
-##超级工具包
+## 超级工具包
 
 版本：2.3.5<br>
 作者：西门提督<br>
 日期：2016-12-15
 
-##Utils超级工具包用法如下：
+## Utils超级工具包用法如下：
 
-###1.AndroidManifest.xml添加权限：
+### 1.AndroidManifest.xml添加权限：
 
     <!-- 往sdcard中写入数据的权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -30,7 +30,7 @@
         </intent-filter>
     </receiver>
 
-###2.BaseApplication初始化操作：
+### 2.BaseApplication初始化操作：
 
     public class BaseApplication extends Application {
     
@@ -83,8 +83,8 @@
         }
     }
 
-###详细用法：（更新中）
-####意图：
+### 详细用法：（更新中）
+#### 意图：
 
     IntentUtils.builder(this)
             .targetClass(TestActivity.class) // 目标跳转
@@ -101,7 +101,7 @@
             .isFinish(false) // 是否销毁
             .jump();
 
-####吐司：
+#### 吐司：
 
     ToastUtils.builder(this)
             .viewLayout(R.layout.nursing_toast) // 自定义布局
