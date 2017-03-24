@@ -8,79 +8,79 @@
 ##Utils超级工具包用法如下：
 
 ###1.AndroidManifest.xml添加权限：
-        <!-- 往sdcard中写入数据的权限 -->
-        <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-        <!-- 在sdcard中创建/删除文件的权限 -->
-        <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-        <!-- 读取sdcard权限 -->
-        <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<!-- 往sdcard中写入数据的权限 -->
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<!-- 在sdcard中创建/删除文件的权限 -->
+<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+<!-- 读取sdcard权限 -->
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-        <!-- 如果需要做网络监听事件则需要添加权限： -->
-        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-        <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-        <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-        <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+<!-- 如果需要做网络监听事件则需要添加权限： -->
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
-        <!-- 添加广播 -->
-        <receiver android:name="com.cmonbaby.utils.net.NetStateReceiver">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <action android:name="cmonbaby.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
+<!-- 添加广播 -->
+<receiver android:name="com.cmonbaby.utils.net.NetStateReceiver">
+    <intent-filter>
+        <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+        <action android:name="cmonbaby.net.conn.CONNECTIVITY_CHANGE" />
+    </intent-filter>
+</receiver>
 
 ###2.BaseApplication初始化操作：
-        public class BaseApplication extends Application {
+public class BaseApplication extends Application {
 
-            // 网络是否已打开已获得
-            protected Boolean networkAvailable = false;
-            // 网络状态监听
-            protected NetChangeObserver netObserver;
+    // 网络是否已打开已获得
+    protected Boolean networkAvailable = false;
+    // 网络状态监听
+    protected NetChangeObserver netObserver;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        UtilsManager.Opration.setDebug(true); // 正式签名打包，建议关闭Log日志
+        UtilsManager.Opration.setToastShow(true);
+        UtilsManager.Opration.setAppName("utils"); // 必填
+        UtilsManager.Opration.setPackageName(getPackageName()); // 必填
+        UtilsManager.Opration.setLogTag("utils >>> "); // 可不填
+        UtilsManager.Opration.setPreferencesFileName("com.utils"); // 可不填
+        UtilsManager.Opration.setVersionCode(String.valueOf(PackageUtils.getAppVersionCode(this))); // 可不填
+        // UtilsManager.Opration.setFileName(this, "files", "crash"); // 任意类新建目录：Android/data/包名/一级/二级/
+
+        // App异常崩溃处理器
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(this, "服务端上传错误日志URL");
+
+        initNetWork();
+    }
+
+    private void initNetWork() {
+        netObserver = new NetChangeObserver() {
 
             @Override
-            public void onCreate() {
-                super.onCreate();
-                UtilsManager.Opration.setDebug(true); // 正式签名打包，建议关闭Log日志
-                UtilsManager.Opration.setToastShow(true);
-                UtilsManager.Opration.setAppName("utils"); // 必填
-                UtilsManager.Opration.setPackageName(getPackageName()); // 必填
-                UtilsManager.Opration.setLogTag("utils >>> "); // 可不填
-                UtilsManager.Opration.setPreferencesFileName("com.utils"); // 可不填
-                UtilsManager.Opration.setVersionCode(String.valueOf(PackageUtils.getAppVersionCode(this))); // 可不填
-                // UtilsManager.Opration.setFileName(this, "files", "crash"); // 任意类新建目录：Android/data/包名/一级/二级/
-
-                // App异常崩溃处理器
-                CrashHandler crashHandler = CrashHandler.getInstance();
-                crashHandler.init(this, "服务端上传错误日志URL");
-
-                initNetWork();
+            public void onConnect(NetType type) {
+                // 网络连接连接时调用
+                networkAvailable = true;
+                // 逻辑代码省略一百行
             }
 
-            private void initNetWork() {
-                netObserver = new NetChangeObserver() {
-
-                    @Override
-                    public void onConnect(NetType type) {
-                        // 网络连接连接时调用
-                        networkAvailable = true;
-                        // 逻辑代码省略一百行
-                    }
-
-                    @Override
-                    public void onDisConnect() {
-                        // 当前没有网络连接
-                        networkAvailable = false;
-                        // 逻辑代码省略一百行
-                    }
-                };
-                NetStateReceiver.registerObserver(netObserver);
+            @Override
+            public void onDisConnect() {
+                // 当前没有网络连接
+                networkAvailable = false;
+                // 逻辑代码省略一百行
             }
+        };
+        NetStateReceiver.registerObserver(netObserver);
+    }
 
-            // 获取当前网络状态，true为网络连接成功，否则网络连接失败
-            protected Boolean isNetworkAvailable() {
-                return networkAvailable;
-            }
-        }
+    // 获取当前网络状态，true为网络连接成功，否则网络连接失败
+    protected Boolean isNetworkAvailable() {
+        return networkAvailable;
+    }
+}
 
 ###详细用法：（更新中）
 ####意图：
