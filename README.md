@@ -32,9 +32,9 @@
 ###2.BaseApplication初始化操作：
         public class BaseApplication extends Application {
 
-            /** 网络是否已打开已获得 */
+            // 网络是否已打开已获得
             protected Boolean networkAvailable = false;
-            /** 网络状态监听 */
+            // 网络状态监听
             protected NetChangeObserver netObserver;
 
             @Override
@@ -49,7 +49,7 @@
                 UtilsManager.Opration.setVersionCode(String.valueOf(PackageUtils.getAppVersionCode(this))); // 可不填
                 // UtilsManager.Opration.setFileName(this, "files", "crash"); // 任意类新建目录：Android/data/包名/一级/二级/
 
-                /** App异常崩溃处理器 */
+                // App异常崩溃处理器
                 CrashHandler crashHandler = CrashHandler.getInstance();
                 crashHandler.init(this, "服务端上传错误日志URL");
 
@@ -61,14 +61,14 @@
 
                     @Override
                     public void onConnect(NetType type) {
-                        /** 网络连接连接时调用 */
+                        // 网络连接连接时调用
                         networkAvailable = true;
                         // 逻辑代码省略一百行
                     }
 
                     @Override
                     public void onDisConnect() {
-                        /** 当前没有网络连接 */
+                        // 当前没有网络连接
                         networkAvailable = false;
                         // 逻辑代码省略一百行
                     }
@@ -76,7 +76,7 @@
                 NetStateReceiver.registerObserver(netObserver);
             }
 
-            /** 获取当前网络状态，true为网络连接成功，否则网络连接失败 */
+            // 获取当前网络状态，true为网络连接成功，否则网络连接失败
             protected Boolean isNetworkAvailable() {
                 return networkAvailable;
             }
