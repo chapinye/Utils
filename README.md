@@ -31,7 +31,9 @@
     </receiver>
 
 ###2.BaseApplication初始化操作：
+
     public class BaseApplication extends Application {
+    
         // 网络是否已打开已获得
         protected Boolean networkAvailable = false;
         // 网络状态监听
@@ -83,6 +85,7 @@
 
 ###详细用法：（更新中）
 ####意图：
+
     IntentUtils.builder(this)
             .targetClass(TestActivity.class) // 目标跳转
             .booleanParams("isExam", true) // boolean参数
@@ -99,6 +102,7 @@
             .jump();
 
 ####吐司：
+
     ToastUtils.builder(this)
             .viewLayout(R.layout.nursing_toast) // 自定义布局
             .message(a + " / " + b + " / " + c + " / " + d ) // 吐司内容
